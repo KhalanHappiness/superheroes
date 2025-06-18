@@ -5,7 +5,7 @@ from . import db
 class Hero(db.Model, SerializerMixin):
     __tablename__ = "heroes"
 
-    serialize_rules = ('-hero_powers.hero',)
+    serialize_rules = ('-hero_powers.hero','-powers.hero')
 
 
     id = db.Column(db.Integer, primary_key =True)

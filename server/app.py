@@ -3,10 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
 
-from models import db
-from models.hero import Hero
-from models.power import Power
-from models.hero_power import HeroPower
+from .models import db
+from .models.hero import Hero
+from .models.power import Power
+from .models.hero_power import HeroPower
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -38,7 +38,43 @@ def get_heroes():
 
     response = make_response(
         heroes_list,
-        200
+        200,
+        {"Content-Type": "application/json"}
     )
     return response
 
+@app.route('/heroes/<int:id>')
+def get_hero_by_id(id):
+    hero = Hero.query.filter(Hero.id == id).first()
+
+    if hero:
+        hero_dict = hero.to_dict()
+
+        return make_response(hero_dict, 200)
+
+    return make_response(jsonify({"error": "Hero not found"}), 404)
+
+@app.route('/powers')
+def get_powers():
+
+    powers = Power.query.all()
+
+    powers_dict = [power.to_dict(rules=('-hero_powers', '-heroes')) for power in powers]
+
+    response = make_response(
+        powers_dict,
+        200,
+        {"Content-Type": "application/json"}
+        )
+    return response
+
+@app.route('/powers/<int:id>')
+def get_power_by_id(id):
+    power = Power.query.filter(Power.id == id).first()
+
+    if power:
+        power_dict = power.to_dict(rules=('-hero_powers', '-heroes'))
+
+        return make_response(power_dict, 200)
+
+    return make_response(jsonify({"error": "power not found"}), 404)

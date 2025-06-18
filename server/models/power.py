@@ -6,7 +6,7 @@ from . import db
 class Power(db.Model, SerializerMixin):
     __tablename__ = "powers"
 
-    serialize_rules = ("-power.hero_powers",)
+    serialize_rules = ('-hero_powers.power', '-hero_powers.hero')
 
     id = db.Column(db.Integer, primary_key =True)
     name = db.Column(db.String, nullable =False)

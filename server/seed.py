@@ -1,6 +1,9 @@
 from random import choice as rc
 from app import app
-from models import db, Hero, Power, HeroPower
+from models import db
+from models.hero import Hero
+from models.power import Power
+from models.hero_power import HeroPower
 if __name__ == '__main__':
     with app.app_context():
         print("Clearing db...")

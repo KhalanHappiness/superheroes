@@ -10,3 +10,6 @@ class Power(db.Model, SerializerMixin):
     description = db.Column(db.String)
 
     hero_powers = db.relationship('HeroPower', backpopulates = 'power', cascade= 'all, delete-orphan')
+
+    def __repr__(self):
+        return f'<Power {self.id},{self.name}, {self.description}>'

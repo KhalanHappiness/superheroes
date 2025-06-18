@@ -9,7 +9,7 @@ class Hero(db.Model, SerializerMixin):
     name = db.Column(db.String)
     super_name = db.Column(db.String)
 
-    hero_powers = db.relationship('HeroPower', backpopulates = 'hero')
+    hero_powers = db.relationship('HeroPower', backpopulates = 'hero', cascade = 'all, delete-orphan')
 
     def __repr__ (self):
         return f"<Hero {self.name}, {self.super_name}>"

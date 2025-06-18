@@ -1,0 +1,12 @@
+from sqlalchemy_serializer import SerializerMixin
+
+from . import db
+
+class Power(db.Model, SerializerMixin):
+    __tablename__ = "powers"
+
+    id = db.Column(db.Integer, primary_key =True)
+    name = db.Column(db.String)
+    description = db.Column(db.String)
+
+    hero_powers = db.relationship('HeroPower', backpopulates = 'power', cascade= 'all, delete-orphan')

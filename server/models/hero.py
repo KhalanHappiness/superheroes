@@ -5,11 +5,14 @@ from . import db
 class Hero(db.Model, SerializerMixin):
     __tablename__ = "heroes"
 
+    serialize_rules = ("-hero.hero_powers", )
+
+
     id = db.Column(db.Integer, primary_key =True)
     name = db.Column(db.String)
     super_name = db.Column(db.String)
 
-    hero_powers = db.relationship('HeroPower', backpopulates = 'hero', cascade = 'all, delete-orphan')
+    hero_powers = db.relationship('HeroPower', back_populates = 'hero', cascade = 'all, delete-orphan')
 
     def __repr__ (self):
         return f"<Hero {self.name}, {self.super_name}>"

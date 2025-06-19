@@ -77,7 +77,7 @@ def get_power_by_id(id):
 
         return make_response(power_dict, 200)
 
-    return make_response(jsonify({"error": "power not found"}), 404)
+    return make_response(jsonify({"error": "Power not found"}), 404)
 
 @app.route('/powers/<int:id>', methods=['PATCH'])
 def update_power(id):

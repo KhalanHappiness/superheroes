@@ -41,14 +41,14 @@ Create and activate a virtual environment:
 
 
 # Run migrations:
-flask db init
-flask db migrate -m "Initial migration"
-flask db upgrade
+- flask db init
+- flask db migrate -m "Initial migration"
+- flask db upgrade
 
 # Seed the database:
-python seed.py
-Start the server:
-flask run
+- python seed.py
+- Start the server:
+- flask run
 
 ### Data Models & Relationships
 ## Hero
@@ -188,19 +188,19 @@ Request Body:
 
 
 { "errors": ["validation errors"] }
-Testing
+## Testing
 You can use  Postman to test all endpoints. Be sure your server is running on http://127.0.0.1:5000.
 
 Technologies Used
-Python 3 / Flask
+- Python 3 / Flask
 
-SQLAlchemy
+- SQLAlchemy
 
-Flask-Migrate
+- Flask-Migrate
 
-PostgreSQL / SQLite
+- PostgreSQL / SQLite
 
-SQLAlchemy Serializer
+- SQLAlchemy Serializer
 
 
 

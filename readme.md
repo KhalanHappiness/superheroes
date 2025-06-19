@@ -35,23 +35,23 @@ Create and activate a virtual environment:
 - pipenv install
 - pinenv shell
 
-## Install dependencies:
+### Install dependencies:
 
 - pip install flask_sqlalchemy flask_migrate flask
 
 
-# Run migrations:
+### Run migrations:
 - flask db init
 - flask db migrate -m "Initial migration"
 - flask db upgrade
 
-# Seed the database:
+### Seed the database:
 - python seed.py
 - Start the server:
 - flask run
 
-### Data Models & Relationships
-## Hero
+## Data Models & Relationships
+### Hero
 id: Integer, Primary Key
 
 name: String
@@ -60,7 +60,7 @@ super_name: String
 
 Relationships: Has many Powers through HeroPowers
 
-## Power
+### Power
 id: Integer, Primary Key
 
 name: String
@@ -69,7 +69,7 @@ description: String (min 20 characters)
 
 Relationships: Has many Heroes through HeroPowers
 
-## HeroPower
+### HeroPower
 id: Integer, Primary Key
 
 strength: String (Strong, Weak, Average)

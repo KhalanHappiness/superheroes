@@ -89,7 +89,7 @@ def update_power(id):
     data = request.get_json()
     
     try:
-        # Set the new description (this will trigger the validator)
+        # Set the new description and validate
         power.description = data.get('description')
 
         db.session.commit()
@@ -121,7 +121,7 @@ def create_hero_power():
         if not hero or not power:
             return make_response(jsonify({"errors": ["validation errors"]}), 400)
 
-        # Create the HeroPower instance (validation for `strength` occurs here)
+        # Create the HeroPower instance and validate
         hero_power = HeroPower(
             hero_id=hero_id,
             power_id=power_id,

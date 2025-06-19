@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
@@ -78,3 +78,30 @@ def get_power_by_id(id):
         return make_response(power_dict, 200)
 
     return make_response(jsonify({"error": "power not found"}), 404)
+
+@app.route('/powers/<int:id>', methods=['PATCH'])
+def update_power(id):
+    power = Power.query.get(id)
+
+    if not power:
+        return make_response(jsonify({"error": "Power not found"}), 404)
+
+    data = request.get_json()
+
+    # Validation: Check if description is present and valid
+    description = data.get('description')
+    if not description or len(description.strip()) < 20:
+        return make_response(jsonify({"errors": ["validation errors"]}), 400)
+
+    # Update and commit
+    power.description = description
+    try:
+        db.session.commit()
+        return make_response(jsonify({
+            "id": power.id,
+            "name": power.name,
+            "description": power.description
+        }), 200)
+    except:
+        db.session.rollback()
+        return make_response(jsonify({"errors": ["Something went wrong."]}), 500)

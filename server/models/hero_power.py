@@ -19,7 +19,7 @@ class HeroPower(db.Model, SerializerMixin):
 
     # Validation for strength
     @validates('strength')
-    def validate_strength(self, key, strength):
+    def validate_strength(self, strength):
         valid_strengths = ['Strong', 'Weak', 'Average']
         if strength not in valid_strengths:
             raise ValueError(f"Strength must be one of: {', '.join(valid_strengths)}")

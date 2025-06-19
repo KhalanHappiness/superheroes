@@ -87,21 +87,70 @@ def update_power(id):
         return make_response(jsonify({"error": "Power not found"}), 404)
 
     data = request.get_json()
-
-    # Validation: Check if description is present and valid
-    description = data.get('description')
-    if not description or len(description.strip()) < 20:
-        return make_response(jsonify({"errors": ["validation errors"]}), 400)
-
-    # Update and commit
-    power.description = description
+    
     try:
+        # Set the new description (this will trigger the validator)
+        power.description = data.get('description')
+
         db.session.commit()
-        return make_response(jsonify({
+
+        response_data = {
             "id": power.id,
             "name": power.name,
             "description": power.description
-        }), 200)
-    except:
-        db.session.rollback()
-        return make_response(jsonify({"errors": ["Something went wrong."]}), 500)
+        }
+
+        return make_response(jsonify(response_data), 200)
+
+    except ValueError:
+        return make_response(jsonify({"errors": ["validation errors"]}), 400)
+    
+@app.route('/hero_powers', methods=['POST'])
+def create_hero_power():
+    data = request.get_json()
+
+    try:
+        hero_id = data.get('hero_id')
+        power_id = data.get('power_id')
+        strength = data.get('strength')
+
+        # Check if hero and power exist
+        hero = Hero.query.get(hero_id)
+        power = Power.query.get(power_id)
+
+        if not hero or not power:
+            return make_response(jsonify({"errors": ["validation errors"]}), 400)
+
+        # Create the HeroPower instance (validation for `strength` occurs here)
+        hero_power = HeroPower(
+            hero_id=hero_id,
+            power_id=power_id,
+            strength=strength
+        )
+
+        db.session.add(hero_power)
+        db.session.commit()
+
+        # Respond with nested data
+        response = {
+            "id": hero_power.id,
+            "hero_id": hero.id,
+            "power_id": power.id,
+            "strength": hero_power.strength,
+            "hero": {
+                "id": hero.id,
+                "name": hero.name,
+                "super_name": hero.super_name
+            },
+            "power": {
+                "id": power.id,
+                "name": power.name,
+                "description": power.description
+            }
+        }
+
+        return make_response(jsonify(response), 201)
+
+    except ValueError as e:
+        # Catch validation errors from model
+        return make_response(jsonify({"errors": ["validation errors"]}), 400)

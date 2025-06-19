@@ -20,10 +20,6 @@ Superheroes/
 ├── migrations/
 └── README.md
 
-yaml
-Copy
-Edit
-
 ---
 
 ## Setup Instructions
@@ -32,22 +28,24 @@ Edit
    ```bash
    git clone https://github.com/KhalanHappiness/superheroes
    cd Superheroes
+
 Create and activate a virtual environment:
 
 
-python -m venv .venv
-source .venv/bin/activate
-Install dependencies:
+- pipenv install
+- pinenv shell
 
-pip install flask_sqlalchemy flask_migrate flask
-Run migrations:
+## Install dependencies:
+
+- pip install flask_sqlalchemy flask_migrate flask
 
 
+# Run migrations:
 flask db init
 flask db migrate -m "Initial migration"
 flask db upgrade
-Seed the database:
 
+# Seed the database:
 python seed.py
 Start the server:
 flask run
